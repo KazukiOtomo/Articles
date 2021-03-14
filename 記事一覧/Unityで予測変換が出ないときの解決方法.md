@@ -4,12 +4,16 @@ unityでVisual Studioは開くが、予測変換が出てこないという人�
 
 **まず、Visual StudioにUnityのアセンブラが入っているか確認します**
 
+<br>
+
 ![Unityの予測変換が出ない　ver1](https://user-images.githubusercontent.com/67196994/111075513-a5ff6c00-852b-11eb-90a4-df5ececc734e.jpg)
 
 **Visual Studioを起動すると、上記の画面になるので、**
 **「新しいプロジェクトの続行」を押します。**
 
-![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/850380/8479774b-2a9e-5efd-d731-f54a0c554a20.png)
+<br>
+
+![Unityの予測変換が出ない　ver2](https://user-images.githubusercontent.com/67196994/111075720-b06e3580-852c-11eb-82a0-0b663cf83f97.jpg)
 
 **すると、上のような画面になり、右側のリストの下の方にある
 「さらにツールと機能をインストールする」を押します。**
