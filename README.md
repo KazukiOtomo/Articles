@@ -20,4 +20,6 @@
 ## その他
 [・集団開発の進め方](https://github.com/KazukiOtomo/Articles/blob/main/%E8%A8%98%E4%BA%8B%E4%B8%80%E8%A6%A7/%E9%9B%86%E5%9B%A3%E9%96%8B%E7%99%BA%E3%81%AE%E9%80%B2%E3%82%81%E6%96%B9.md)
 
+[・CodeComplete備忘録第1章](https://github.com/KazukiOtomo/Articles/blob/main/%E8%A8%98%E4%BA%8B%E4%B8%80%E8%A6%A7/code%20complete%E5%82%99%E5%BF%98%E9%8C%B2%E7%AC%AC1%E7%AB%A0.md)
+
 [・JSONとは何か？](https://github.com/KazukiOtomo/Articles/blob/main/%E8%A8%98%E4%BA%8B%E4%B8%80%E8%A6%A7/JSON%E3%81%A8%E3%81%AF.md)
