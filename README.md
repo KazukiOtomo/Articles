@@ -22,4 +22,6 @@
 
 [・CodeComplete備忘録第1章](https://github.com/KazukiOtomo/Articles/blob/main/%E8%A8%98%E4%BA%8B%E4%B8%80%E8%A6%A7/code%20complete%E5%82%99%E5%BF%98%E9%8C%B2%E7%AC%AC1%E7%AB%A0.md)
 
+[・CodeComplete備忘録第2章](https://github.com/KazukiOtomo/Articles/blob/main/%E8%A8%98%E4%BA%8B%E4%B8%80%E8%A6%A7/code%20complete%E5%82%99%E5%BF%98%E9%8C%B2%E7%AC%AC2%E7%AB%A0.md)
+
 [・JSONとは何か？](https://github.com/KazukiOtomo/Articles/blob/main/%E8%A8%98%E4%BA%8B%E4%B8%80%E8%A6%A7/JSON%E3%81%A8%E3%81%AF.md)
