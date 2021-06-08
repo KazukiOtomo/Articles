@@ -23,6 +23,8 @@ WebGLでビルドして生成されたindex.htmlを使って、
 
 ～～参考画像～～
 
+<img width="190" alt="スクリーンショット 2021-06-08 102407" src="https://user-images.githubusercontent.com/67196994/121112654-a74ee500-c84b-11eb-82ff-a48fe9b317a2.png">
+
 
 
 ## ②、ビルドで生成された物の格納場所
