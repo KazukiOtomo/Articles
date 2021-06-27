@@ -26,6 +26,8 @@
 ## R編
 [・第2章](https://github.com/KazukiOtomo/Articles/blob/main/DS%E7%AC%AC2%E7%AB%A0.ipynb)
 
+[・第3章](https://github.com/KazukiOtomo/Articles/blob/main/DS%E7%AC%AC3%E7%AB%A0.ipynb)
+
 ## その他
 [・集団開発の進め方](https://github.com/KazukiOtomo/Articles/blob/main/%E8%A8%98%E4%BA%8B%E4%B8%80%E8%A6%A7/%E9%9B%86%E5%9B%A3%E9%96%8B%E7%99%BA%E3%81%AE%E9%80%B2%E3%82%81%E6%96%B9.md)
 
