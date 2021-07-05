@@ -1,4 +1,12 @@
-unityでVisual Studioは開くが、予測変換が出てこないという人向けの記事です。
+author: KazukiOtomo
+summary: unityでVisual Studioは開くが、予測変換が出てこないという人向けの記事です。
+id: unity-assenbly-error
+categories: codelab,markdown
+environments: Web
+status: Publishd
+<!-- feedback link: https://github.com/KazukiOtomo/Articles -->
+
+# Unityで予測変換が出ないときの対処法
 
 ## ①ダウンロードの確認
 
