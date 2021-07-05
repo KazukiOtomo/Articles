@@ -1,0 +1,23 @@
+{
+  "environment": "web",
+  "format": "html",
+  "prefix": "https://storage.googleapis.com",
+  "mainga": "UA-49880327-14",
+  "updated": "2021-07-05T13:09:36Z",
+  "id": "claat-DS-third",
+  "duration": 0,
+  "title": "R 第3章",
+  "authors": "KazukiOtomo",
+  "summary": "Unityで予測変換が出ないときの対処法です",
+  "source": "1woHgtxOtRnxK69NrsGL1SDFUXiRqWPLVqFwglMffFlw",
+  "theme": "go",
+  "status": [
+    "publishd"
+  ],
+  "category": [
+    "Go"
+  ],
+  "tags": [],
+  "feedback": "https://github.com/KazukiOtomo/ClaatSample",
+  "url": "claat-DS-third"
+}
