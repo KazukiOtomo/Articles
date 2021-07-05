@@ -1,0 +1,191 @@
+
+<!doctype html>
+
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <meta name="theme-color" content="#4F7DC9">
+  <meta charset="UTF-8">
+  <title>RによるDS第2章</title>
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
+  <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://storage.googleapis.com/codelab-elements/codelab-elements.css">
+  <style>
+    .success {
+      color: #1e8e3e;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <google-codelab-analytics gaid="UA-49880327-14"></google-codelab-analytics>
+  <google-codelab codelab-gaid=""
+                  id="claat-DS-second"
+                  title="RによるDS第2章"
+                  environment="web"
+                  feedback-link="https://github.com/KazukiOtomo/ClaatSample">
+    
+      <google-codelab-step label="記述統計とは" duration="0">
+        <p><strong>ポイント</strong></p>
+<p><strong>記述統計</strong>とは、平均値とか分散を算出・グラフ化することで、データの性質を把握する手法のこと。</p>
+<p>母集団からデータを抽出して標本を作り、求められた記述統計量を用いて母集団の値を推測する手法を<strong>推測統計</strong>という。</p>
+<p>※今回の内容では、csvファイルで全てのデータ(母集団)を扱うので、値の信頼性について考える必要はない</p>
+<p><strong><em>用語</em></strong></p>
+<pre><code>記述統計 = データの概要を把握するための手法(数値への要約・グラフによる可視化...)
+
+記述統計量 = 記述統計量で求められた値(平均値、分散...)</code></pre>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="分析データ" duration="0">
+        <p><strong>ポイント</strong></p>
+<p>csvファイルを読み込む際には、<strong>変数名があるかどうか</strong>で「header=TRUE or FALSE」を指定する。</p>
+<pre><code># あらかじめ、用意されたcsvデータをcolabに配置しよう！
+
+dat &lt;- read.csv(&#34;data_ch2.csv&#34;,header = TRUE)</code></pre>
+<aside class="special"><p><code>※"header"というのは，変数名を書いた"data_ch2.csv"の1行目のことです．</code></p>
+<p><code>1行目に変数名が書いてあるファイルを読み込む際には，"header=TRUE"と指定する必要があります．</code></p>
+<p><code>もし，1行目に変数名がなく，</code><strong><code>いきなりデータが書かれているようなファイルを読み込む場合は，</code></strong></p>
+<p><strong><code>"header=FALSE"と指定します</code></strong><code>．</code></p>
+</aside>
+<p>head()で冒頭だけ表示できる。全体を表示させたければ、print()や、データフレームの変数名を書いてやればよい。</p>
+<pre><code># 分かりやすくするためにサンプルベクトルを作成する。
+# c関数は、ベクトルを作成するための関数
+vector &lt;- c(1,2,3,4,5,6,7,8,9,10)
+
+# 先頭6行だけ表示
+head(vector)
+# 全てのデータを表示
+print(vector)
+# 型を確認
+class(vector)</code></pre>
+<p><strong><em>出力結果</em></strong></p>
+<pre><code># 先頭から6行分が表示されている
+1・2・3・4・5・6
+
+# 全てのデータが表示されている
+1 2 3 4 5 6 7 8 9 10
+
+# 型は&#39;numeric&#39;というやつ
+‘numeric&#39;</code></pre>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="平均値・中央値・最頻値" duration="0">
+        <p><strong>ポイント</strong></p>
+<p><strong>平均値：mean(DATA)</strong></p>
+<p class="image-container"><img style="width: 193.50px" src="img\\b3fee0b5a2a0ab6d.png"></p>
+<p>一般的には算術平均のことを単に平均という。これは、集合の要素の総和を集合の要素数で割ったものである</p>
+<pre><code>#csvファイルを読み込む
+dat &lt;- read.csv(&#34;data_ch2.csv&#34;,header = TRUE)
+
+#データフレームの「score」列の平均値の算出
+mean(dat$score)
+
+#型の確認：&#39;numeric&#39;
+class(mean(dat$score))</code></pre>
+<aside class="warning"><p>外れ値の影響を受けやすいので、データの特徴を捉えるのは難しい。</p>
+</aside>
+<p><strong>・中央値：median(DATA)</strong></p>
+<p><img style="width: 218.50px" src="img\\7aa5d61ddbe826dc.png">(nが偶数)</p>
+<p><img style="width: 368.32px" src="img\\28ce286794f7dcce.png">(nが奇数)</p>
+<p>順位が中央である値のことで、データの大きさが偶数の場合は、中央順位2個の値の算術平均をとる</p>
+<pre><code>#データフレームの「score」列の中央値の算出
+median(dat$score)
+# 返り値の型：&#39;numeric&#39;
+class(median(dat$score))</code></pre>
+<aside class="warning"><p>全体のデータの「中心」が求められるが、これもデータ全体の特徴を捉えているとは言えない。</p>
+</aside>
+<p><strong>最頻値：which.max(table(DATA))</strong></p>
+<p>データや確率分布で頻度（度数、確率）が最大の値のこと</p>
+<aside class="special"><p>最頻値を求める関数が存在しないので、</p>
+<p>複数の関数を併合して再現する</p>
+</aside>
+<pre><code>#データフレームの「score」列の最頻値の算出
+names(which.max(table(dat$score)))
+
+# table関数の返り値の型：&#39;table&#39;
+class(table(dat$score))
+
+# which.max関数の返り値：&#39;integer&#39;
+class(which.max(table(dat$score)))
+
+# names関数の返り値：&#39;character&#39;
+class(names(which.max(table(dat$score))))</code></pre>
+<p><strong>table関数</strong>：個々の点数を取った学習者を集計する。</p>
+<p>(例、10点：2人、15点：3人......)</p>
+<p><strong>which.max関数</strong>:最も多くあらわれる点数を特定する。</p>
+<p><strong>names関数</strong>：今回のnames属性「点数」の情報のみ取り出している。</p>
+<aside class="special"><p>names関数からの返り値は文字列として認識されている。</p>
+<p>よって、求めた最頻値を別の計算に使う場合は、</p>
+<p>as.numeric関数を用いて「文字列」から「数値」に変換する必要がある。</p>
+</aside>
+<pre><code>name = names(which.max(table(dat$score)))
+as.numeric(name)
+
+# 返り値：&#39;numeric&#39;
+class(as.numeric(name))</code></pre>
+<aside class="special"><p>以下のコードを実行すると、度数分布表を得ることができる。</p>
+</aside>
+<pre><code>table(dat$score)</code></pre>
+<p><strong>出力結果</strong></p>
+<p class="image-container"><img style="width: 601.70px" src="img\\ec6fc4b3fe3a4090.png"></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="最小値・最大値・範囲" duration="0">
+        <p><strong>ポイント</strong></p>
+<p><strong>min関数</strong>:最小値のデータを求める</p>
+<p><strong>max関数</strong>:最大値のデータを求める</p>
+<p><strong>range関数</strong>:最小・最大値を同時に求める</p>
+<p><strong>範囲</strong>：(最大値)ー(最小値)</p>
+<aside class="special"><p>返り値の型は、全て&#39;numeric&#39;</p>
+</aside>
+<pre><code>#100名の試験結果の最低点 出力：21
+min(dat$score)
+
+#100名の試験結果の最高点 出力：96
+max(dat$score)
+
+#最高点と最低点を同時に算出 出力：21・96
+range(dat$score)
+
+#試験結果の範囲 出力：76
+max(dat$score) - min(dat$score)</code></pre>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="分散・標準偏差" duration="0">
+        <p><strong>ポイント</strong></p>
+<p><strong>標本分散</strong></p>
+<p>分散は具体的には、平均値からの偏差の自乗の平均に等しい。</p>
+<p class="image-container"><img style="width: 202.50px" src="img\\6333947736e5db37.png"></p>
+<p>分散(<strong>不偏分散</strong>)を求めるには、<strong>var関数</strong>を用いる。</p>
+<aside class="special"><p>割る数がn-1となる理由は、<strong>標本分散を標本数で割ってしまうと、元の母集団の分散よりも小さくなりやすくなってしまう</strong>という理由からだそう。詳しい解説は<a href="https://manabitimes.jp/math/1035" target="_blank">こちら (高校数学の美しい物語)</a></p>
+</aside>
+<aside class="warning"><p>Rのvar関数は不偏分散（unbiased variance）という母分散の推定値を計算する関数です</p>
+<p>Rに標本分散を計算する組み込み関数はありません</p>
+</aside>
+<p><strong>標準偏差</strong></p>
+<p>・標準偏差(<strong>不偏標本標準偏差</strong>)を求めるには、<strong>sd関数</strong>を用いる。</p>
+<p>・ここで求められる分散・標準偏差は、あくまで標本内のものであり、<strong>母集団の代表値を推定する値である</strong>ということに注意しなければいけない。</p>
+
+
+      </google-codelab-step>
+    
+  </google-codelab>
+
+  <script src="https://storage.googleapis.com/codelab-elements/native-shim.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/custom-elements.min.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/prettify.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/codelab-elements.js"></script>
+  <script src="//support.google.com/inapp/api.js"></script>
+
+</body>
+</html>

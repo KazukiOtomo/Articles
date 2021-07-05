@@ -1,0 +1,23 @@
+{
+  "environment": "web",
+  "format": "html",
+  "prefix": "https://storage.googleapis.com",
+  "mainga": "UA-49880327-14",
+  "updated": "2021-07-01T12:05:30Z",
+  "id": "claat-DS-second",
+  "duration": 0,
+  "title": "RによるDS第2章",
+  "authors": "KazukiOtomo",
+  "summary": "参考資料：Rによる教育データ分析入門",
+  "source": "1e4hpjXO5YfhT2iViqmgsnTyDMO_1ANqOP65ujhwSlPo",
+  "theme": "go",
+  "status": [
+    "publishd"
+  ],
+  "category": [
+    "Go"
+  ],
+  "tags": [],
+  "feedback": "https://github.com/KazukiOtomo/ClaatSample",
+  "url": "claat-DS-second"
+}
