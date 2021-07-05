@@ -1,0 +1,275 @@
+
+<!doctype html>
+
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <meta name="theme-color" content="#4F7DC9">
+  <meta charset="UTF-8">
+  <title>R 第3章</title>
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
+  <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://storage.googleapis.com/codelab-elements/codelab-elements.css">
+  <style>
+    .success {
+      color: #1e8e3e;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <google-codelab-analytics gaid="UA-49880327-14"></google-codelab-analytics>
+  <google-codelab codelab-gaid=""
+                  id="claat-DS-third"
+                  title="R 第3章"
+                  environment="web"
+                  feedback-link="https://github.com/KazukiOtomo/ClaatSample">
+    
+      <google-codelab-step label="３－１ 層別分析の考え方" duration="0">
+        <p><strong>ポイント</strong></p>
+<p>「70点」というデータが優秀かどうかは、他の学習者と比べないと分からないように、分析するためには「何かと何かを比べる」ことが必要になる。</p>
+<p>例えば、集団分析や学習者の学部・学科・入学年度・担当教員など、部分集合に分けて比較すると、より多くの情報を得ることができる。</p>
+<p>(例：担当教員によってクラス別の成績に大きな差が出ていたら......?)</p>
+<p>このように、データをグループごとに分析する方法を<strong>層別分析</strong>という。</p>
+<p><a href="https://bellcurve.jp/statistics/course/9595.html" target="_blank">層別分析の例</a></p>
+<p>気温の違いを、雪が多いか地域かどうかで分けた例</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="３－２ 分析データ" duration="0">
+        <p><strong>ポイント</strong></p>
+<p><strong>dim関数</strong>でデータの規模(列数と行数)が分かる。（今回の学習者数は、790人）</p>
+<pre><code>#ファイルの読み込み
+dat &lt;- read.csv(&#34;data_ch3.csv&#34;,header = TRUE)
+
+#行数と列数の確認  出力：790・6  ‘integer&#39;
+dim(dat)</code></pre>
+<aside class="special"><p>table関数を使用することで、各パラメータのデータ数を可視化できる。</p>
+</aside>
+<pre><code>#クラス別の学習者数 ‘table&#39;
+table(dat$class)
+
+#担当教員別の学習者数 ‘table&#39;
+table(dat$prof)
+
+#男女別の学習者数 ‘table&#39;
+table(dat$sex)
+
+#学部別の学習者数 ‘table&#39;
+table(dat$faculty)</code></pre>
+<p><strong>出力結果</strong></p>
+<p class="image-container"><img style="width: 552.50px" src="img\\890139585114c2e4.png"></p>
+<p><strong>summary関数</strong>で、記述統計量をまとめて算出できるが、欠損値(NA`s)が混じるので注意する。</p>
+<aside class="warning"><p>ベクトルに欠損値が混じると、平均値もNAになる。</p>
+<p>欠損値＝テストを受けなかった人の点数・pandasでのNaN</p>
+</aside>
+<pre><code>#scoreの記述統計量  &#39;summaryDefault・table&#39;
+summary(dat$score)</code></pre>
+<p><strong>出力結果</strong></p>
+<p class="image-container"><img style="width: 601.70px" src="img\\1b7d63487fd4f7.png"></p>
+<p>欠損値を削除するには、<strong>na.omit関数</strong>を使う。</p>
+<pre><code>#欠損値(NA)を含む行を削除する
+dat.new &lt;- na.omit(dat)
+
+#行数と列数の確認 出力：768・6
+dim(dat.new)
+
+#元データが790行なので、22行減っている</code></pre>
+<p>欠損値も含めてデータを精査したい場合は、「欠損値を削除する」・「欠損値を別の値に置き換える」方法の2つがある。</p>
+<p>「欠損値を削除する」場合は、上記のコードを実行すればよい。</p>
+<p>「欠損値を別の値に置き換える」場合は、</p>
+<p><strong>is.na関数</strong>で欠損値のある位置を特定し、そのセルを上書きする。</p>
+<p>置き換える値については、平均値・中央値などで置き換えたりする。</p>
+<p>(記述統計量に大きな影響を与えないようにするため)</p>
+<pre><code>#欠損値を含む行を平均値に置き換える
+dat$score[is.na(dat$score)] &lt;- mean(dat$score)</code></pre>
+<p>is.na()の返り値は、&#39;logocal&#39;となっており、</p>
+<p>これは論理値(bool型)となっている。</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="３－３ ヒストグラム" duration="0">
+        <p>縦軸に度数、横軸に階級をとった統計グラフの一種で、データの分布状況を視覚的に認識するために主に統計学や数学、画像処理等で用いられる。<strong>柱状図</strong>、<strong>柱状グラフ</strong>、<strong>度数分布図</strong>ともいう。</p>
+<p>ヒストグラムを使ってデータを可視化することで、</p>
+<p>記述統計量や検定では分からないデータの性質が分かる。 （※データに偏りがあるとか）</p>
+<p><strong>hist関数</strong>を使うと、ヒストグラムが描画される。</p>
+<pre><code>#ヒストグラムの描画
+hist(dat.new$score)</code></pre>
+<p><strong>出力結果</strong></p>
+<p class="image-container"><img style="width: 395.43px" src="img\\13b4fddef32b9bba.png"></p>
+<aside class="special"><p>hist()の引数に以下の指定をすると変更ができる、</p>
+</aside>
+<table>
+<tr><td colspan="1" rowspan="1"><p><strong>引数</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>対応</strong></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>main</p>
+</td><td colspan="1" rowspan="1"><p>タイトル</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>xlab</p>
+</td><td colspan="1" rowspan="1"><p>横軸ラベル</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>ylab</p>
+</td><td colspan="1" rowspan="1"><p>縦軸ラベル</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>col</p>
+</td><td colspan="1" rowspan="1"><p>グラフ棒の色</p>
+</td></tr>
+</table>
+<pre><code>#ヒストグラムのタイトルと軸ラベルを変更
+hist(dat.new$score, main = &#34;FInal Exam&#34;, xlab = &#34;score&#34;, ylab = &#34;number of student&#34;)</code></pre>
+<p class="image-container"><img style="width: 502.50px" src="img\\e5ed86038e8f0209.png"></p>
+<aside class="warning"><p>hist()に返り値はなし。(classで型判定すると、エラーを吐く)</p>
+</aside>
+<p>今度は、男女別の得点分布を比較する。</p>
+<p>層別のヒストグラムを描く方法として、<strong>latticeパッケージのhistogram関数</strong>を使用する。</p>
+<aside class="warning"><p>縦軸の値が百分率の合計になっているので注意</p>
+</aside>
+<pre><code>#パッケージのインストール
+install.packages(&#34;lattice&#34;, dependencies = TRUE)
+#パッケージの読み込み
+library(&#34;lattice&#34;)</code></pre>
+<pre><code>#男女別の得点分布の比較
+histogram(~ score | sex , data = dat)</code></pre>
+<p class="image-container"><img style="width: 503.50px" src="img\\f1f8a3ea96abb944.png"></p>
+<aside class="special"><p>縦軸の値は、「密度(dense)」「カウント(count)」「パーセント(デフォルト)」</p>
+<p>のいずれかに設定することができる。</p>
+<p><a href="https://homerhanumat.github.io/tigerstats/histogram.html" target="_blank">latticeパッケージのhistogram()の詳しい解説</a></p>
+</aside>
+<pre><code>#クラス別の得点分布の比較
+histogram(~ score | faculty , data = dat)</code></pre>
+<p class="image-container"><img style="width: 478.90px" src="img\\dab0a9a49b13d4f.png"></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="３－４ 箱ひげ図" duration="0">
+        <p>データのばらつきをわかりやすく表現するための統計図のこと。</p>
+<p><strong>boxplot関数</strong>で箱ひげ図を描画できる。</p>
+<p><strong>第3四分位数＋（四分位範囲）＊ 1.5</strong> より大きいものと、</p>
+<p><strong>第1四分位数ー（四分位範囲）＊ 1.5</strong> より小さいものが<strong>外れ値</strong>と判断される。</p>
+<p>※四分位範囲＝(第3四分位数)ー(第1四分位数)</p>
+<p>ノッチの両端の値は、<strong>(データの中央値)±1.58＊(四分位範囲) / (標本数の平方根)</strong>で算出される。</p>
+<p>・2つの箱ひげ図を比較するとき、切込みがオーバーラップ(重なること)していなければ、<strong>2つのグループの中央値に有意差がある</strong>ということになる。</p>
+<p><a href="https://clover.fcg.world/2017/04/16/8733/" target="_blank">箱ひげ図の諸統計量について</a></p>
+<pre><code>#箱ひげ図の描画
+#◯が外れ値を表している
+boxplot(dat$score)
+
+#箱ひげ図の描画に使われている要約統計量の確認
+boxplot.stats(dat$score)
+
+#stats : 長さ5のベクトル、最小値・第1四分位・中央値・第3四分位・最大値 の実データ
+
+#n : 標本数
+
+#conf : ノッチの下位及び上位の最端値
+
+#out : 外れ値</code></pre>
+<p class="image-container"><img style="width: 461.50px" src="img\\3876119438ebada9.png"></p>
+<p class="image-container"><img style="width: 505.52px" src="img\\3403df11102e06f6.png"></p>
+<pre><code>#range = 0を指定すると、外れ値を排除できる
+boxplot(dat$score, range = 0)</code></pre>
+<p class="image-container"><img style="width: 506.50px" src="img\\9b78355edd1a5bda.png"></p>
+<pre><code>#クラス別の箱ひげ図
+boxplot(dat$score ~ dat$class, range = 0)</code></pre>
+<p class="image-container"><img style="width: 501.67px" src="img\\8edc44228c22a842.png"></p>
+<pre><code>#ノッチを入れた箱ひげ図
+boxplot(dat$score ~ dat$class, ylim = c(0, 100),notch = TRUE)</code></pre>
+<p class="image-container"><img style="width: 484.36px" src="img\\48cccc27b930de07.png"></p>
+<aside class="special"><p>ノッチを入れると、2つのデータ群を見比べた際に、両者の平均値や分散に</p>
+<p>差があるか可視化することができる。</p>
+<p>(このメリットは、4章の「検定」で感じるかもしれない)</p>
+</aside>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="３－５ 蜂群図" duration="0">
+        <p><strong>蜂群図</strong>：個々のデータを蜂の群れのようにプロットしたグラフのこと</p>
+<p>個々のプロットが重ならないので、データの分布が見やすい。</p>
+<p>蜂群図単体で用いられることは少なく、箱ひげ図に重ねて描画されることが多い。</p>
+<p>beeswarmパッケージの<strong>beeswarm関数</strong>を使うと、蜂群図が書ける。</p>
+<pre><code>#パッケージのインストール
+install.packages(&#34;beeswarm&#34;, dependencies = TRUE)
+#パッケージの読み込み
+library(&#34;beeswarm&#34;)</code></pre>
+<pre><code>#蜂群図の描画
+beeswarm(dat$score ~ dat$class, ylim = c(0, 100), pch = 16, cex = 0.5)</code></pre>
+<aside class="special"><p>ylim(? . ?)で、縦軸の両端の値を指定している。</p>
+</aside>
+<p class="image-container"><img style="width: 472.08px" src="img\\f33bf77e6ad39f56.png"></p>
+<p>beeswarm()の解説を以下に示す。</p>
+<pre><code>beeswarm(x, method, vertical, pch, col)</code></pre>
+<table>
+<tr><td colspan="1" rowspan="1"><p>引数</p>
+</td><td colspan="1" rowspan="1"><p>説明</p>
+</td><td colspan="1" rowspan="1"><p>初期値</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>x</p>
+</td><td colspan="1" rowspan="1"><p>蜂群図で扱うデータ。数値型のベクトル、データフレーム、リスト。</p>
+</td><td colspan="1" rowspan="1"></td></tr>
+<tr><td colspan="1" rowspan="1"><p>method</p>
+</td><td colspan="1" rowspan="1"><p>プロットする点の配置を指定すパラメータ。&#34;swarm&#34;, &#34;center&#34;, &#34;hex&#34;, &#34;square&#34;のいずれか</p>
+</td><td colspan="1" rowspan="1"><p>c(&#34;swarm&#34;, &#34;center&#34;, &#34;hex&#34;, &#34;square&#34;)</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>vertical</p>
+</td><td colspan="1" rowspan="1"><p>プロットする点を垂直方向に配置することを指定する真偽値。</p>
+</td><td colspan="1" rowspan="1"><p>TRUE</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>pch</p>
+</td><td colspan="1" rowspan="1"><p>プロットする点の形を指定するパラメータ</p>
+</td><td colspan="1" rowspan="1"><p>par(&#34;pch&#34;)</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>col</p>
+</td><td colspan="1" rowspan="1"><p>プロットする点の色を指定するパラメータ。</p>
+</td><td colspan="1" rowspan="1"><p>par(&#34;col&#34;)</p>
+</td></tr>
+</table>
+<aside class="special"><p><a href="https://bioscryptome.t-ohashi.info/r/beeswarm/" target="_blank">beeswarm関数の詳しい解説</a></p>
+</aside>
+<pre><code>#箱ひげ図に蜂群図を重ねて描画
+boxplot(dat$score ~ dat$class, ylim = c(0, 100))
+beeswarm(dat$score ~ dat$class, ylim = c(0, 100), pch = 16, cex = 0.5, add = TRUE)</code></pre>
+<p class="image-container"><img style="width: 480.50px" src="img\\fc4c948e964a4ab4.png"></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="３－６ 平均値±標準偏差のプロット" duration="0">
+        <p>平均値±標準偏差のプロットをするためには、<strong>gplotsパッケージのplotmeans関数</strong>を用いる。</p>
+<pre><code>#パッケージのインストール
+install.packages(&#34;gplots&#34;,dependencies = TRUE)
+#パッケージの読み込み
+library(&#34;gplots&#34;)</code></pre>
+<pre><code>#平均値±標準偏差のプロット
+plotmeans(dat$score ~ dat$class, main = &#34;Final Exam&#34;, xlab = &#34;class&#34;, ylab = &#34;score&#34;)</code></pre>
+<p class="image-container"><img style="width: 511.50px" src="img\\9e4e0afd5d5a311b.png"></p>
+<aside class="special"><p>このような事をする理由は、正規分布において（平均値±標準偏差）の中に、</p>
+<p>全体の約68％のデータが入っているという定理(?)があるので、</p>
+<p>プロットした上下の区切り線の中に68%のデータが含まれていることが分かる。</p>
+</aside>
+<p class="image-container"><img style="width: 507.66px" src="img\\c77e4af8e9710080.png"></p>
+<p><strong>tapply関数</strong>で、グループ分けした上での平均点・標準偏差を求められる。</p>
+<pre><code>#各クラスの平均点 &#39;array&#39;
+tapply(dat.new$score, dat.new$class, mean)
+#各クラスの標準偏差 ‘array&#39;
+tapply(dat.new$score,dat.new$class, sd)</code></pre>
+
+
+      </google-codelab-step>
+    
+  </google-codelab>
+
+  <script src="https://storage.googleapis.com/codelab-elements/native-shim.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/custom-elements.min.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/prettify.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/codelab-elements.js"></script>
+  <script src="//support.google.com/inapp/api.js"></script>
+
+</body>
+</html>
