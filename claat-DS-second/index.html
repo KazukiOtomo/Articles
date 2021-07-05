@@ -71,6 +71,8 @@ class(vector)</code></pre>
 
 # 型は&#39;numeric&#39;というやつ
 ‘numeric&#39;</code></pre>
+<aside class="special"><p><code>numeric</code> 型はコンピュータの内部表現の違いで、<strong><code>integer, double</code></strong> 型と呼ばれることもある。詳しくは<a href="http://www.f.waseda.jp/sakas/R/Rdata.html" target="_blank">こちら</a>(R：データ型の解説)</p>
+</aside>
 
 
       </google-codelab-step>
@@ -89,10 +91,11 @@ mean(dat$score)
 #型の確認：&#39;numeric&#39;
 class(mean(dat$score))</code></pre>
 <aside class="warning"><p>外れ値の影響を受けやすいので、データの特徴を捉えるのは難しい。</p>
+<p>例：100点が2人、10点が1人でも平均点は70点と算出されてしまう。</p>
 </aside>
 <p><strong>・中央値：median(DATA)</strong></p>
-<p><img style="width: 218.50px" src="img\\7aa5d61ddbe826dc.png">(nが偶数)</p>
-<p><img style="width: 368.32px" src="img\\28ce286794f7dcce.png">(nが奇数)</p>
+<p><img style="width: 113.50px" src="img\\f055fb256a74b1c9.png">(nが奇数)</p>
+<p><img style="width: 298.00px" src="img\\ee8cf9bff3dec273.png">(nが偶数)</p>
 <p>順位が中央である値のことで、データの大きさが偶数の場合は、中央順位2個の値の算術平均をとる</p>
 <pre><code>#データフレームの「score」列の中央値の算出
 median(dat$score)
@@ -105,6 +108,10 @@ class(median(dat$score))</code></pre>
 <aside class="special"><p>最頻値を求める関数が存在しないので、</p>
 <p>複数の関数を併合して再現する</p>
 </aside>
+<p><strong>table関数</strong>：個々の点数を取った学習者を集計する。</p>
+<p>(例、10点：2人、15点：3人......)</p>
+<p><strong>which.max関数</strong>:最も多くあらわれる点数を特定する。</p>
+<p><strong>names関数</strong>：今回のnames属性「点数」の情報のみ取り出している。</p>
 <pre><code>#データフレームの「score」列の最頻値の算出
 names(which.max(table(dat$score)))
 
@@ -116,10 +123,6 @@ class(which.max(table(dat$score)))
 
 # names関数の返り値：&#39;character&#39;
 class(names(which.max(table(dat$score))))</code></pre>
-<p><strong>table関数</strong>：個々の点数を取った学習者を集計する。</p>
-<p>(例、10点：2人、15点：3人......)</p>
-<p><strong>which.max関数</strong>:最も多くあらわれる点数を特定する。</p>
-<p><strong>names関数</strong>：今回のnames属性「点数」の情報のみ取り出している。</p>
 <aside class="special"><p>names関数からの返り値は文字列として認識されている。</p>
 <p>よって、求めた最頻値を別の計算に使う場合は、</p>
 <p>as.numeric関数を用いて「文字列」から「数値」に変換する必要がある。</p>
@@ -166,15 +169,76 @@ max(dat$score) - min(dat$score)</code></pre>
 <p><strong>標本分散</strong></p>
 <p>分散は具体的には、平均値からの偏差の自乗の平均に等しい。</p>
 <p class="image-container"><img style="width: 202.50px" src="img\\6333947736e5db37.png"></p>
-<p>分散(<strong>不偏分散</strong>)を求めるには、<strong>var関数</strong>を用いる。</p>
 <aside class="special"><p>割る数がn-1となる理由は、<strong>標本分散を標本数で割ってしまうと、元の母集団の分散よりも小さくなりやすくなってしまう</strong>という理由からだそう。詳しい解説は<a href="https://manabitimes.jp/math/1035" target="_blank">こちら (高校数学の美しい物語)</a></p>
 </aside>
 <aside class="warning"><p>Rのvar関数は不偏分散（unbiased variance）という母分散の推定値を計算する関数です</p>
 <p>Rに標本分散を計算する組み込み関数はありません</p>
 </aside>
+<p>分散(<strong>不偏分散</strong>)を求めるには、<strong>var関数</strong>を用いる。</p>
+<pre><code>#100名の試験結果の分散 出力：283.320707070707 :&#39;numeric&#39;
+var(dat$score)</code></pre>
 <p><strong>標準偏差</strong></p>
-<p>・標準偏差(<strong>不偏標本標準偏差</strong>)を求めるには、<strong>sd関数</strong>を用いる。</p>
-<p>・ここで求められる分散・標準偏差は、あくまで標本内のものであり、<strong>母集団の代表値を推定する値である</strong>ということに注意しなければいけない。</p>
+<p class="image-container"><img style="width: 201.50px" src="img\\e840df3954471602.png"></p>
+<p><strong>分散の平方根</strong></p>
+<p>ここで求められる分散・標準偏差は、あくまで標本内のものであり、<strong>母集団の代表値を推定する値である</strong>ということに注意しなければいけない。</p>
+<aside class="special"><p>母集団や確率変数の標準偏差を <em>σ</em> で、標本の標準偏差を <em>s</em> で表すことがある。</p>
+</aside>
+<p>標準偏差(<strong>不偏標本標準偏差</strong>)を求めるには、<strong>sd関数</strong>を用いる。</p>
+<pre><code>#100名の試験結果の標準偏差 出力：16.8321337105374 :&#39;numeric&#39;
+sd(dat$score)</code></pre>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="5数要約・要約統計量" duration="0">
+        <p><strong>ポイント</strong></p>
+<p>5数要約とは、<strong>最大値・最小値・中央値・第1/第3四分位数の5つ</strong>を指している。</p>
+<aside class="special"><p>5数要約を求めるには、<strong>quantile関数</strong>を用いる。</p>
+</aside>
+<pre><code>#100名の試験結果の5数要約 返り値：&#39;numeric&#39;
+quantile(dat$score)</code></pre>
+<p><strong>出力結果</strong></p>
+<p class="image-container"><img style="width: 601.70px" src="img\\dfa31d40c7334d53.png"></p>
+<aside class="special"><p><strong>summary関数</strong>を使うと、5数要約と平均値を同時に求めることができる。</p>
+</aside>
+<pre><code>#5数要約と平均値を同時に算出する。 返り値：&#39;summaryDefault&#39;&#39;table&#39;
+summary(dat$score)</code></pre>
+<p><strong>出力結果</strong></p>
+<p class="image-container"><img style="width: 524.00px" src="img\\6745a1ef631d387a.png"></p>
+<aside class="special"><p>psychパッケージの読み込みを行い、</p>
+<p><strong>describe関数</strong>を用いると、様々なパラメータを取得することができる。</p>
+</aside>
+<pre><code>#パッケージのインストール
+install.packages(&#34;psych&#34;,dependensies=TRUE)
+#パッケージの読み込み
+library(&#34;psych&#34;)
+
+#様々なパラメータを取得することができる 返り値:</code></pre>
+<p>psych・describe・data.frame</p>
+<pre><code>describe(dat)</code></pre>
+<p><strong>出力結果</strong></p>
+<p class="image-container"><img style="width: 691.12px" src="img\\be683cb17d9bfa17.png"></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="標準得点・偏差値" duration="0">
+        <p>平均と標準偏差が<strong>ある特定の値になるように同じ数式の処理によって変換された</strong>得点のこと。</p>
+<p>今回は、<strong>平均が0、標準偏差が1</strong>になるような変換になっている。</p>
+<aside class="special"><p><strong>scale関数</strong>を用いると、標準得点が求められる。</p>
+</aside>
+<pre><code># 標準得点を求める
+scale(dat$score)</code></pre>
+<aside class="special"><p>※0.29という標準得点は、「平均点よりも少し高い得点」ということを示している。</p>
+</aside>
+<p><strong>出力結果</strong></p>
+<p class="image-container"><img style="width: 99.50px" src="img\\28005dcc83c2b0b7.png"></p>
+<aside class="special"><p>偏差値を求める関数は存在しないので、上手く再現する。</p>
+</aside>
+<pre><code>#データの偏差値を求める
+((dat$score - mean(dat$score) )/ sd(dat$score)) * 10 + 50</code></pre>
+<p><strong>出力結果</strong></p>
+<p class="image-container"><img style="width: 601.70px" src="img\\b3291ea19eaaf2a4.png"></p>
 
 
       </google-codelab-step>
