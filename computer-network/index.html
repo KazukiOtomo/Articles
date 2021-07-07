@@ -1,0 +1,107 @@
+
+<!doctype html>
+
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <meta name="theme-color" content="#4F7DC9">
+  <meta charset="UTF-8">
+  <title>ネットワーク提言書</title>
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
+  <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://storage.googleapis.com/codelab-elements/codelab-elements.css">
+  <style>
+    .success {
+      color: #1e8e3e;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <google-codelab-analytics gaid="UA-49880327-14"></google-codelab-analytics>
+  <google-codelab codelab-gaid=""
+                  id="computer-network"
+                  title="ネットワーク提言書"
+                  environment="web"
+                  feedback-link="https://github.com/KazukiOtomo/ClaatSample">
+    
+      <google-codelab-step label="システム運用のポリシー" duration="0">
+        <p class="image-container"><img style="width: 601.70px" src="img\\e0f7f6b79a6ee77b.png"></p>
+<h2 is-upgraded>利用者</h2>
+<p>学生・教員(外部講師含む)・事務職員・研究や会議で訪れた外部訪問者...</p>
+<aside class="warning"><p><strong>＃TODO：組織の構造・各部署の活動を詳細に羅列する</strong></p>
+</aside>
+<p><strong>例：</strong></p>
+<p class="image-container"><img style="width: 433.04px" src="img\\17eb15a21c97b2e6.png"></p>
+<aside class="warning"><p><strong>#TODO：活動に不随して必要なサービスを羅列する</strong></p>
+</aside>
+<p class="image-container"><img style="width: 431.24px" src="img\\2b1cf6fe1537564e.png"></p>
+<h2 is-upgraded>提供するサービス</h2>
+<p>・ポータルシステム</p>
+<p>・e-ラーニングシステム</p>
+<p>・学内PCにおけるLANの構築</p>
+<p>・ファイアウォールの保守・運用</p>
+<p>・VPN</p>
+<h2 is-upgraded>導入のメリット</h2>
+<aside class="warning"><p><strong>#TODO:導入に対する強みを提示する</strong></p>
+</aside>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="現行のシステムの問題点" duration="0">
+        <h2 is-upgraded>１，履修科目登録の際に学内PCかVPNを使わなければいけない</h2>
+<p>現在、感染症などで学校に来られなくなった場合では事務の方々に負担が集中している構造になっている。</p>
+<p>しかしVPN接続は、セキュリティソフトがブロックする事があるため、信頼性のある物とは言えない。</p>
+<aside class="special"><p>履修登録を担当するサーバは、DMZにおいても良いかもしれない。</p>
+</aside>
+<h2 is-upgraded>２，ポータルシステムが落ちた場合、授業の運営に大きな支障が出る</h2>
+<p>特にリモート授業において、ポータルシステムのサーバーが落ちてしまうと、</p>
+<p>授業をやっているZoomへのアクセスや課題の提出に支障が出てしまう。</p>
+<p>ポータルを運営するサーバを複数立てて、負荷分散をすれば解決しそうに見えるが、</p>
+<p>現行のポータルシステムがSQLサーバに依存している以上、SQLサーバが落ちてしまえば</p>
+<p>ポータルも連動して落ちてしまう。(SQLサーバを複数立てる事も可能だが、同期等の問題</p>
+<p>があるため、実現することは難しい。)</p>
+<aside class="special"><p>これを解決するためには、AWSやFirebaseのような外部サービスに頼る。</p>
+<p>もしくは、ポータルシステムをSQLを使わない方式で組み直すことが必要になる。</p>
+</aside>
+<h2 is-upgraded>３，授業を行う用のWi-Fiと共用のWi-Fiが同じ</h2>
+<p>学内での授業で用いるWi-Fiと、学生が自由にアクセスできるWi-Fiが同じだと、</p>
+<p>パフォーマンスが著しく落ち込んでしまう可能性がある。</p>
+<p>全員でZoomに接続したり、YoutubeLiveを見ない限りは落ちることはない。</p>
+<aside class="special"><p>Zoomの最大容量が6Mbpsと表示されているので、</p>
+<p>100人同時接続、全員顔出し画面共有とか無茶な事はしない事を考えると、</p>
+<p>300~400Mbpsに耐えられるような周辺機器(ルータ、ファイアウォール、無線LAN...)を</p>
+<p>設置すればよさそう</p>
+</aside>
+<h2 is-upgraded>４，情報漏洩への対策</h2>
+<p>ファイアウォールを設置することで、外部からの不正なアクセスを監視することができるが、</p>
+<p>24時間体制で監視する人員が必要になる。</p>
+<aside class="special"><p>科技大様は、人手が足りないことで評判なので、</p>
+<p>セキュリティの保守・運用は外部に発注するのが良いかと。</p>
+<p>(現に、現行も外部に頼んでいるらしい ＠深町)</p>
+</aside>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="STEP1" duration="0">
+        <p class="image-container"><img style="width: 601.70px" src="img\\8686e8b4e49a68ae.png"></p>
+<aside class="warning"><p>#<strong>TODO ネットワーク構成図の作成</strong></p>
+</aside>
+
+
+      </google-codelab-step>
+    
+  </google-codelab>
+
+  <script src="https://storage.googleapis.com/codelab-elements/native-shim.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/custom-elements.min.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/prettify.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/codelab-elements.js"></script>
+  <script src="//support.google.com/inapp/api.js"></script>
+
+</body>
+</html>
