@@ -1,0 +1,23 @@
+{
+  "environment": "web",
+  "format": "html",
+  "prefix": "https://storage.googleapis.com",
+  "mainga": "UA-49880327-14",
+  "updated": "2021-07-07T12:25:19Z",
+  "id": "computer-network",
+  "duration": 0,
+  "title": "ネットワーク提言書",
+  "authors": "KazukiOtomo",
+  "summary": "コンピュータネットワークの課題",
+  "source": "1MfDuc5cr2GMhnrXNCgj4WAaIcofimuii3vQ67uU-lNg",
+  "theme": "go",
+  "status": [
+    "publishd"
+  ],
+  "category": [
+    "Go"
+  ],
+  "tags": [],
+  "feedback": "https://github.com/KazukiOtomo/ClaatSample",
+  "url": "computer-network"
+}
