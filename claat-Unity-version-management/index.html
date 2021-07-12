@@ -1,0 +1,118 @@
+
+<!doctype html>
+
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <meta name="theme-color" content="#4F7DC9">
+  <meta charset="UTF-8">
+  <title>複数人で1つのUnityプロジェクトを管理するには</title>
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
+  <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://storage.googleapis.com/codelab-elements/codelab-elements.css">
+  <style>
+    .success {
+      color: #1e8e3e;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <google-codelab-analytics gaid="UA-49880327-14"></google-codelab-analytics>
+  <google-codelab codelab-gaid=""
+                  id="claat-Unity-version-management"
+                  title="複数人で1つのUnityプロジェクトを管理するには"
+                  environment="web"
+                  feedback-link="https://github.com/KazukiOtomo/ClaatSample">
+    
+      <google-codelab-step label="複数人でUnityプロジェクトを製作していくには" duration="0">
+        <p>複数人でゲーム製作をするときは、作業分担をして進めていくと思います。その例として、2日間で1グループ1つのゲームを製作する「GameJam」というイベント（ハッカソン）が挙げられます。</p>
+<p>「GameJam」では1グループあたり5～7人（※場所によって変動する）がプログラマー2人、2Dグラフィック2人、3Dグラフィック1人、サウンド1人で役割分担をしています。</p>
+<p>では、グループ全員で1つのプロジェクトを完成させるためには、どのようにファイルを管理すれば良いのでしょうか？ オススメは、「バージョン管理システム」を利用することです。</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="バージョン管理システムとは" duration="0">
+        <p>バージョン管理システムは、プロジェクトのスクリプトや素材などの変更履歴を記録・追跡するためのシステムです。スクリプトを変更したとき、「いつ」「誰が」「どのように変更したのか」をすべて見ることができます。最新バージョンのスクリプトで不具合等が発生した際には、過去のスクリプトの状態に戻すことも可能です。</p>
+<p>また、複数人で同じスクリプトを編集しても、マージ（統合）させることができます。</p>
+<h2 is-upgraded>SkypeやDropboxでスクリプトや素材を送る</h2>
+<p>グループにバージョン管理システムを利用したことのない人がいる場合に、この方法を採るグループもありましたが、あまりオススメできません。</p>
+<p>SkypeやDropboxでファイルを受け渡ししたグループは、ゲーム製作時間のほとんどが、プロジェクトをマージ（結合）させる時間に取られていました。また、途中経過で同じファイルを何度も送る場面も出てきていました（ゲームがどこまで動かせる状態なのかを何度か確認していた）。その度に同じファイル名のスクリプトや素材を送っていたため、いつ送ったのが最新バージョンの物か非常にわかりづらくなっていたのです。</p>
+<p>さらに、素材を正しく受け渡しできたとしても、スクリプトと素材の依存関係（スクリプト内でpublic変数として宣言したGameObjectの設定など）を結合先で正しく設定し直さなければならないので、二度手間になってしまいます。</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="GitでUnityのプロジェクトを管理する（version管理時のUnityの各種設定）" duration="0">
+        <p>Gitには様々なコマンドがあります。プロジェクト管理を行う前に、まず最低限押さえておきたいコマンドを紹介します。</p>
+<p class="image-container"><img style="width: 601.70px" src="img\\115669996cb4ff46.png"></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Unityでの設定" duration="0">
+        <p>複数人でバージョン管理システムを利用する際には、まずプロジェクトを編集するUnityのバージョンを合わせましょう。そして、UnityプロジェクトをGitでバージョン管理するにはUnity側で少し設定が必要になります。Unityプロジェクトを編集する全員が以下の設定を行ってください。実際にUnityを操作しながら説明します。メニューバーから［Edit］→［Project Settings］→［Editor］を選択すると、インスペクタウィンドウに「Editor Settings」が表示されます（図1）。また、Editor Settingsの初期値は図2のようになっています。</p>
+<p class="image-container"><img alt="「Editor Settings」を表示" style="width: 601.70px" src="img\\3e8fd6c9709ae7d6.jpeg"></p>
+<p><a href="https://thinkit.co.jp/sites/default/files/636201.jpg" target="_blank">図1：「Editor Settings」を表示</a></p>
+<p class="image-container"><img alt="「Editor Settings」の初期値" style="width: 601.70px" src="img\\4070ee4da951ce0d.jpeg"></p>
+<p><a href="https://thinkit.co.jp/sites/default/files/636202.jpg" target="_blank">図2：「Editor Settings」の初期値</a></p>
+<p>ここで、「Editor Settings」内の「Version Control」を［Hidden Meta Files］から［Visible Meta Files］に、「Asset Serialization」を［Mixed］から［Force Text］に変更します（図3）。この2つの項目を変更することで、コミット時にファイルやスクリプトが競合を起こしても修正可能な状態にできます。</p>
+<p class="image-container"><img alt="「Editor Settings」の設定の変更" style="width: 601.70px" src="img\\94fb75ef272cc533.jpeg"></p>
+<p><a href="https://thinkit.co.jp/sites/default/files/636203.jpg" target="_blank">図3：「Editor Settings」の設定の変更</a></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Gitでの設定" duration="0">
+        <p>続いて、Git側の設定です。Gitでバージョン管理を行なう際には、まず管理対象としないファイルを.Gitignoreに設定します。.Gitignoreにリスト1の項目を追加してください。</p>
+<p class="image-container"><img style="width: 601.70px" src="img\\dd3592180606e03d.png"></p>
+<h2 is-upgraded>Unityプロジェクトを編集するときの注意</h2>
+<p>ここでは、GitでUnityプロジェクトを編集するときの注意点をTips的に紹介します。</p>
+<h3 is-upgraded>同名のファイルを上書きしたい場合</h3>
+<p>一度組み込んだ画像や3Dモデルなどのモデル素材に修正があり、同じファイル名で上書きしたい場合は、Unityエディタ外でファイルを上書きしてください（図4）。</p>
+<p class="image-container"><img alt="同じファイル名の上書きはUnity外で" style="width: 601.70px" src="img\\7de301d1317f26f9.jpeg"></p>
+<p><a href="https://thinkit.co.jp/sites/default/files/636204.jpg" target="_blank">図4：同じファイル名の上書きはUnity外で</a></p>
+<p>Unityエディタ上で同じファイルを取り込むと、上書きではなく同じファイル名に数字が追加された名前になってしまいます（図5）。</p>
+<p class="image-container"><img alt="同じファイルをUnityエディタに取り込むとファイル名に数字が付く" style="width: 601.70px" src="img\\9c1d0ce991d43c56.jpeg"></p>
+<p><a href="https://thinkit.co.jp/sites/default/files/636205.jpg" target="_blank">図5：同じファイルをUnityエディタに取り込むとファイル名に数字が付く</a></p>
+<h3 is-upgraded>エディタ外でファイルの移動・ファイルの改名をする場合</h3>
+<p>Unityエディタ上でファイルを移動・改名する場合は特に問題ないのですが、もしエディタ外でファイルを移動・改名する場合は（ファイル名）.metaも移動・改名してください（図6）。</p>
+<p class="image-container"><img alt="Unityエディタ外でファイルを移動する場合（.metaファイルも移動させる）" style="width: 601.70px" src="img\\23654163e73571f2.jpeg"></p>
+<p><a href="https://thinkit.co.jp/sites/default/files/636206.jpg" target="_blank">図6：Unityエディタ外でファイルを移動する場合（.metaファイルも移動させる）</a></p>
+<h3 is-upgraded>Gitでプロジェクトを更新する前に保存</h3>
+<p>Gitでプロジェクトを更新する前には、必ずシーンやプロジェクトを保存しましょう。プロジェクトの保存は、メニューバーから［File］→［Save Project］で行えます（図7）。</p>
+<p class="image-container"><img alt="Unity プロジェクトの保存方法" style="width: 601.70px" src="img\\b129d5563db3dc94.jpeg"></p>
+<p><a href="https://thinkit.co.jp/sites/default/files/636207.jpg" target="_blank">図7：Unity プロジェクトの保存方法</a></p>
+<p>プロジェクトを保存することで、Unityプロジェクト内の.metaファイルが更新されます。</p>
+<h3 is-upgraded>複数人で1つのシーンを編集しない</h3>
+<p>複数人で1つのシーンを編集してしまうと、マージが非常に困難となります。Unity 5では「Smart Merge」と呼ばれる機能が追加されており、シーンの結合が以前よりも簡単に行えるようになりました。</p>
+<p><strong>Smart Merge−Unity Documentation</strong></p>
+<p><a href="http://docs.unity3d.com/ja/current/Manual/SmartMerge.html" target="_blank">http://docs.unity3d.com/ja/current/Manual/SmartMerge.html</a></p>
+<p>GameJamなどのイベントでは作業時間が非常に限られているため、できるだけマージ作業に時間を取られたくありません。そこで、筆者が参加したGameJamではどのように作業を行なったのかを書き留めておきたいと思います。</p>
+<p>そのGameJamでは7名のメンバーでゲームを製作しました。そのうちUnity内で作業を行なったメンバーは4人（残り時間によって若干変動）で、以下の作業分担をしました。</p>
+<ul>
+<li>ゲームのコア部分を製作</li>
+<li>ゲームのステージを製作</li>
+<li>ゲーム内に現れるキャラクターの移動・動きを製作</li>
+<li>タイトル・エンディングなどを製作</li>
+</ul>
+<p>上3つはゲーム部分を製作する作業です。だからと言ってこれら3つの作業を1つのシーンで編集してしまうと、後でマージせざるを得なくなってしまいます。</p>
+<p>そこで、メインとなるゲームシーンとは別に、各個人でテスト用のシーンを作成して、そこでそれぞれの作業を行ないました。このようにすれば、後でシーンをマージする必要がありません（他の人のテスト用シーンを編集しないように注意！）。</p>
+<p>また、「メインとなるゲームシーンは1人だけが触る」と決めておいたほうが良いです。「そのゲームシーンを触れるのはプログラムのリーダーだけ」等、プロジェクト製作前に決定しておきましょう。</p>
+
+
+      </google-codelab-step>
+    
+  </google-codelab>
+
+  <script src="https://storage.googleapis.com/codelab-elements/native-shim.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/custom-elements.min.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/prettify.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/codelab-elements.js"></script>
+  <script src="//support.google.com/inapp/api.js"></script>
+
+</body>
+</html>
