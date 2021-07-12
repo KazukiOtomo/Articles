@@ -1,0 +1,23 @@
+{
+  "environment": "web",
+  "format": "html",
+  "prefix": "https://storage.googleapis.com",
+  "mainga": "UA-49880327-14",
+  "updated": "2021-07-12T03:35:12Z",
+  "id": "claat-Unity-version-management",
+  "duration": 0,
+  "title": "複数人で1つのUnityプロジェクトを管理するには",
+  "authors": "KazukiOtomo",
+  "summary": "Unityでのバージョン管理の資料です",
+  "source": "1w1XmiOgVr9pkEkyqu6HWX3KNuJHpwVX3BKJPX1mLAf4",
+  "theme": "go",
+  "status": [
+    "publishd"
+  ],
+  "category": [
+    "Go"
+  ],
+  "tags": [],
+  "feedback": "https://github.com/KazukiOtomo/ClaatSample",
+  "url": "claat-Unity-version-management"
+}
