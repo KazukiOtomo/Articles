@@ -3,13 +3,13 @@
   "format": "html",
   "prefix": "https://storage.googleapis.com",
   "mainga": "UA-49880327-14",
-  "updated": "2021-07-12T03:39:50Z",
-  "id": "claat-Unity-version-management",
+  "updated": "2021-07-18T10:19:52Z",
+  "id": "claat-DS-fourth",
   "duration": 0,
-  "title": "複数人で1つのUnityプロジェクトを管理するには",
+  "title": "第4章 t検定",
   "authors": "KazukiOtomo",
-  "summary": "Unityでのバージョン管理の資料です",
-  "source": "1w1XmiOgVr9pkEkyqu6HWX3KNuJHpwVX3BKJPX1mLAf4",
+  "summary": "DS第4章の資料です",
+  "source": "1kST4MoT-pzh1iJ-UPqZnRM4WY_y0yNrrXQwhXG8v0G8",
   "theme": "go",
   "status": [
     "publishd"
@@ -19,5 +19,5 @@
   ],
   "tags": [],
   "feedback": "https://github.com/KazukiOtomo/ClaatSample",
-  "url": "claat-Unity-version-management"
+  "url": "claat-DS-fourth"
 }
