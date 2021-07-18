@@ -1,0 +1,128 @@
+
+<!doctype html>
+
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <meta name="theme-color" content="#4F7DC9">
+  <meta charset="UTF-8">
+  <title>第4章 t検定</title>
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
+  <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://storage.googleapis.com/codelab-elements/codelab-elements.css">
+  <style>
+    .success {
+      color: #1e8e3e;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <google-codelab-analytics gaid="UA-49880327-14"></google-codelab-analytics>
+  <google-codelab codelab-gaid=""
+                  id="claat-DS-fourth"
+                  title="第4章 t検定"
+                  environment="web"
+                  feedback-link="https://github.com/KazukiOtomo/ClaatSample">
+    
+      <google-codelab-step label="推測統計" duration="0">
+        <p>今回は、大きな母集団から取り出した標本を使い母集団の性質を推測する<strong>推測統計</strong>について学んでいく。</p>
+<h2 is-upgraded>推定統計</h2>
+<p>...母集団から無作為抽出したデータ群(標本)から母集団の性質を推測する。</p>
+<aside class="special"><p>(日本人全体のデータ約70億を収集するのは、実質不可能なので、標本を抽出して母集団の性質を推測するという手法を取る。)</p>
+</aside>
+<p>例)大学全体5000人（母集団）の英語力を調べるため、大学全体の5000人（母集団）のうち100人（標本）を<strong>無作為</strong>抽出し分析結果を一般化し推定する。</p>
+<aside class="warning"><p>※無作為抽出でなく学科で抽出のとき英文科のみが対象となってしまうと一般化したものが大学全体の英語力であるとは言い難い</p>
+</aside>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="検定の用語と注意点" duration="0">
+        <h2 is-upgraded>用語</h2>
+<aside class="special"><p><strong>t検定</strong></p>
+<p>...比較するデータの平均値や標準偏差に有意差があるかを検定する。</p>
+</aside>
+<aside class="special"><p><strong>t値</strong></p>
+<p>...比較するデータに有意な差があるかどうかを示す値</p>
+</aside>
+<aside class="special"><p><strong>有意水準</strong></p>
+<p>...データの希少性を判断する基準</p>
+</aside>
+<aside class="special"><p><strong>対立仮説</strong></p>
+<p>...主張したい仮説のこと。帰無仮説を棄却できるときに採択できる。</p>
+</aside>
+<aside class="special"><p><strong>帰無仮説</strong></p>
+<p>...ある仮説が正しいかの判断のために立てられる仮説。</p>
+<p> 対立仮説とは、命題における逆の関係になる。</p>
+<p> たいていは否定されることを期待して立てられる。</p>
+</aside>
+<h2 is-upgraded>t検定を使う上での注意点</h2>
+<p>1、帰無仮説と対立仮説の役割を理解する</p>
+<p>2、片側検定と両側検定の使い分けを理解する</p>
+<p>3、仮説検定における第1種過誤と第2種過誤を理解する</p>
+<p>4、母集団が1つの場合と2つの場合に分けて仮説検定を理解する</p>
+<p>5、母集団が2つある場合の検定では、2つのデータが対応のあるデータかどうかを</p>
+<p>判断し、適切な検定の方法を理解する。</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="帰無仮説と対立仮説" duration="0">
+        <aside class="special"><p>例題：ある薬の効果を確かめるために、無作為に選んだ10人に処方を適用し、</p>
+<p>処方前の体重と処方後の体重を測定した。この薬は効果があった(体重は減少した)</p>
+<p>と言えるだろうか。</p>
+</aside>
+<h3 is-upgraded>対立仮説</h3>
+<p>「薬に効果があった」というように、主張したい仮説の事を<strong>対立仮説</strong>と呼び、</p>
+<p><strong>H₁：この薬によって体重が有意に変化した。</strong></p>
+<p>というような表現をする。</p>
+<p>例題に沿うと、以下のような表現になる。</p>
+<p><strong>H₁：(体重変化量の平均値) &lt; 0  </strong></p>
+<h3 is-upgraded>帰無仮説</h3>
+<p>この対立仮説を主張するために、背理法のように否定命題を用意する。これを<strong>帰無仮説</strong>と呼び、</p>
+<p><strong><em>H</em></strong></p>
+<p><strong>₀：この薬によって体重は有意に変化しなかった。</strong></p>
+<p>というような表現をする。</p>
+<p>例題であれば、以下のような表現をする。</p>
+<p><strong>H₀：(体重変化量の平均値) = 0  </strong></p>
+<aside class="warning"><p>今回は、「減少したか」検定を行うので、下方向の<strong>片側検定</strong>を行うが、</p>
+<p>「変化したか」検定を行う際は、<strong>両側検定</strong>を使う。</p>
+</aside>
+<h3 is-upgraded>有意水準</h3>
+<p>帰無仮説H₀の下で、確率分布がα以下の時には、</p>
+<p><strong>&#34;確率の小さい事象が偶然起きた&#34;</strong>と判断せず、</p>
+<p><strong>帰無仮説が正しくない</strong>と判断する。この判定基準αを<strong>有意水準</strong>と呼び、</p>
+<p>0.05や0.01と設定されることが多い。</p>
+<p>帰無仮説が正しくないとき、<strong>帰無仮説を棄却する</strong>という操作を行い、</p>
+<p><strong>対立仮説を採択する。</strong>つまり、主張したかった「薬によって、体重は有意に変化した」</p>
+<p>という仮説を、<strong>有意水準の元で</strong>積極的に主張することができる。</p>
+<aside class="warning"><p>帰無仮説H₀が棄却できないとき、<strong>H₀が正しいと言えるわけではない</strong>。</p>
+<p>通常の検定手順の中では、H₀が採択される確率(本当は対立仮説H₁が正しいのに、</p>
+<p>帰無仮説H₀が棄却されない確率)については、保証されていないので、</p>
+<p>「帰無仮説H₀が棄却できない」→「帰無仮説H₀を採択する」</p>
+<p>というのは、危険な操作である。</p>
+</aside>
+<aside class="special"><p>※帰無仮説H₀を棄却して、対立仮説H₁を採択する時は、</p>
+<p>有意水準の下で保証されているので、積極的に主張する事ができる。</p>
+</aside>
+<aside class="warning"><p>背理法のように、否定命題に矛盾が出たら元の命題がTrueであることが証明される。</p>
+<p>と思っていると、勘違いを起こしてしまうので注意！</p>
+<p>詳しくは、第1種過誤と第2種過誤の部分を参照</p>
+</aside>
+
+
+      </google-codelab-step>
+    
+  </google-codelab>
+
+  <script src="https://storage.googleapis.com/codelab-elements/native-shim.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/custom-elements.min.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/prettify.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/codelab-elements.js"></script>
+  <script src="//support.google.com/inapp/api.js"></script>
+
+</body>
+</html>

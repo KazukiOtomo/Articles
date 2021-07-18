@@ -1,0 +1,23 @@
+{
+  "environment": "web",
+  "format": "html",
+  "prefix": "https://storage.googleapis.com",
+  "mainga": "UA-49880327-14",
+  "updated": "2021-07-18T10:19:52Z",
+  "id": "claat-DS-fourth",
+  "duration": 0,
+  "title": "第4章 t検定",
+  "authors": "KazukiOtomo",
+  "summary": "DS第4章の資料です",
+  "source": "1kST4MoT-pzh1iJ-UPqZnRM4WY_y0yNrrXQwhXG8v0G8",
+  "theme": "go",
+  "status": [
+    "publishd"
+  ],
+  "category": [
+    "Go"
+  ],
+  "tags": [],
+  "feedback": "https://github.com/KazukiOtomo/ClaatSample",
+  "url": "claat-DS-fourth"
+}
